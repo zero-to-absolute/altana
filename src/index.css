@@ -1,0 +1,1351 @@
+@import "tailwindcss";
+
+@theme {
+  --color-parchment: #edede9;
+  --color-bone: #d6ccc2;
+  --color-linen: #f5ebe0;
+  --color-almond-cream: #e3d5ca;
+  --color-almond-silk: #d5bdaf;
+
+  --color-tea-dark: #4a3f35;
+  --color-tea-accent: #8c7851;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-tea-dark);
+    font-family: var(--font-sans);
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-transition {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.glass-card {
+  background-color: rgb(255 255 255 / 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  @apply shadow-sm;
+}
+
+.btn-primary {
+  background-color: var(--color-almond-silk);
+  color: white;
+  @apply px-6 py-3 rounded-sm font-medium transition-all active:scale-95;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-tea-dark);
+}
+
+.input-field {
+  background-color: rgb(255 255 255 / 0.5);
+  border: 1px solid var(--color-bone);
+  @apply px-4 py-2 rounded-sm outline-none transition-all;
+}
+
+.input-field:focus {
+  border-color: var(--color-almond-silk);
+}
+
+/* Кастомный чекбокс */
+.custom-checkbox {
+  @apply appearance-none w-5 h-5 border border-bone rounded-sm bg-white cursor-pointer transition-all relative;
+}
+
+.custom-checkbox:checked {
+  @apply bg-almond-silk border-almond-silk;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  @apply absolute inset-0 flex items-center justify-center text-white text-xs font-bold;
+}
+
+.custom-checkbox:hover:not(:checked) {
+  @apply border-almond-silk;
+}
+
+/* Анимация свёртки сайдбара фильтров */
+#filter-sidebar {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-height: 2000px; /* заведомо больше реальной высоты сайдбара — для плавной свёртки */
+  opacity: 1;
+  transform: translateY(0);
+  margin-bottom: 3rem; /* gap-12 */
+}
+
+#filter-sidebar.hidden-sidebar {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  #filter-sidebar {
+    width: 17%;
+    max-height: none;
+    margin-bottom: 0;
+    margin-right: 3rem; /* gap-12 */
+    transform: translateX(0);
+  }
+  #filter-sidebar.hidden-sidebar {
+    width: 0;
+    max-height: none;
+    margin-right: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Анимация иконки-гамбургера у кнопки фильтров */
+.slider-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.slider-line {
+  height: 2px;
+  background: currentColor;
+  width: 100%;
+  position: relative;
+  border-radius: 1px;
+}
+
+.slider-knob {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slider-line:nth-child(1) .slider-knob { left: 20%; }
+.slider-line:nth-child(2) .slider-knob { left: 70%; }
+.slider-line:nth-child(3) .slider-knob { left: 40%; }
+
+#toggle-filters:hover .slider-line:nth-child(1) .slider-knob { left: 80%; }
+#toggle-filters:hover .slider-line:nth-child(2) .slider-knob { left: 10%; }
+#toggle-filters:hover .slider-line:nth-child(3) .slider-knob { left: 60%; }
+
+.accordion-content {
+  @apply transition-all duration-300 overflow-hidden max-h-0;
+}
+
+.accordion-content.open {
+  @apply max-h-96 mt-4;
+}
+
+.accordion-header i {
+  @apply transition-transform duration-300;
+}
+
+.accordion-header.open i {
+  @apply rotate-180;
+}
+
+/* Компоненты страниц about, orders, favorites, recipes */
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+.breathe { animation: breathe 3s ease-in-out infinite; }
+
+@keyframes removeItem {
+  to { opacity: 0; transform: scale(0.85); }
+}
+.removing { animation: removeItem 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+/* Хлебные крошки */
+.crumbs {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(74 63 53 / 0.45);
+  font-weight: 600;
+}
+.crumbs a { color: rgb(74 63 53 / 0.45); transition: color 0.3s; }
+.crumbs a:hover { color: var(--color-almond-silk); }
+.crumbs span.sep { margin: 0 0.6rem; color: var(--color-almond-silk); }
+
+/* Кнопка с тонкой границей */
+.btn-ghost {
+  border: 1px solid var(--color-bone);
+  padding: 0.75rem 1.5rem;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-tea-dark);
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn-ghost:hover { background: var(--color-tea-dark); color: #fff; border-color: var(--color-tea-dark); }
+
+/* Pill для весов и тегов */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--color-bone);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: #fff;
+  color: var(--color-tea-dark);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 999px;
+}
+.pill:hover { border-color: var(--color-almond-silk); }
+.pill.active {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+  border-color: var(--color-tea-dark);
+}
+
+/* Карточка чая с подсветкой при наведении */
+.tea-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.tea-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgb(213 189 175 / 0.25), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.tea-card:hover { transform: translateY(-4px); border-color: var(--color-almond-silk); }
+.tea-card:hover::before { opacity: 1; }
+
+/* Карточка с пунктирной рамкой (для "+ создать") */
+.dashed-card {
+  border: 2px dashed var(--color-bone);
+  background: transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dashed-card:hover {
+  border-color: var(--color-almond-silk);
+  background: rgb(255 255 255 / 0.5);
+  transform: translateY(-4px);
+}
+
+/* Аккордеон */
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.acc-open .acc-body { max-height: 1200px; }
+.acc-chevron { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.acc-open .acc-chevron { transform: rotate(180deg); }
+
+/* Анимация сердечка */
+.heart-pulse { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.heart-pulse:hover { transform: scale(1.15); }
+
+/* Статус-точка (заказ) */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Линия-разделитель */
+.line-sep { height: 1px; background: var(--color-bone); width: 100%; }
+
+/* Тег-pill (для рецептов) */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 11px;
+  border: 1px solid var(--color-bone);
+  color: var(--color-tea-dark);
+  background: var(--color-linen);
+  border-radius: 999px;
+}
+
+/* Поле inline-переименования */
+.rename-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--color-tea-dark);
+  width: 100%;
+  border-bottom: 1px solid var(--color-almond-silk);
+  padding: 2px 0;
+}
+
+/* Scale-component — индикатор совместимости/сочетаемости */
+.scale { display: inline-flex; align-items: center; gap: 0.5rem; width: 100%; }
+.scale-track { position: relative; flex: 1; height: 8px; border-radius: 999px; background: #e7e5e4; overflow: hidden; }
+.scale-fill { position: absolute; left: 0; top: 0; height: 100%; transition: width 0.3s ease, background 0.3s ease; }
+.scale-label { font-size: 0.75rem; color: #57534e; white-space: nowrap; }
+.scale-sm .scale-track { height: 4px; }
+.scale-md .scale-track { height: 8px; }
+.scale-lg .scale-track { height: 12px; }
+
+/* Конструктор — общие стили шагов и стартового экрана */
+
+#stepper li {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.6);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+#stepper li.step-active { color: var(--color-almond-silk); }
+#stepper li::after { content: '›'; margin: 0 0.5rem; color: var(--color-bone); }
+#stepper li:last-child::after { content: ''; }
+#stepper li:not(.step-active):not(.step-disabled):hover { color: var(--color-almond-silk); text-decoration: none; }
+#stepper li.step-disabled { color: rgb(74 63 53 / 0.25); cursor: not-allowed; opacity: 1; }
+#stepper li:focus-visible { outline: 2px solid var(--color-almond-silk); outline-offset: 2px; border-radius: 2px; }
+
+.step-section { margin-top: 1rem; }
+
+/* Плитка жанра на Шаге 0 */
+.genre-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+  background: #fff;
+  border: 1px solid var(--color-bone);
+  color: var(--color-tea-dark);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+.genre-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-almond-silk);
+  background: var(--color-linen);
+}
+.genre-tile i { color: var(--color-almond-silk); }
+.genre-tile.active {
+  border-color: var(--color-tea-dark);
+  background: var(--color-linen);
+}
+
+/* Карточка готового рецепта в карусели */
+.preset-card {
+  flex: 0 0 260px;
+  background: #fff;
+  border: 1px solid var(--color-bone);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.preset-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-almond-silk);
+}
+.preset-card .preset-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.preset-card .preset-meta {
+  font-size: 0.75rem;
+  color: rgb(74 63 53 / 0.55);
+}
+
+/* Карусель готовых рецептов */
+.preset-row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+}
+.preset-row .preset-card { scroll-snap-align: start; }
+
+/* Конструктор — Шаг 1: карточки чаёв, sticky-bar, модалка */
+
+.tea-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) { .tea-card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .tea-card-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.tea-pick-card {
+  background: #fff;
+  border: 1px solid var(--color-bone);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tea-pick-card:hover { border-color: var(--color-almond-silk); }
+.tea-pick-card.selected {
+  border-color: var(--color-tea-dark);
+  background: var(--color-linen);
+  box-shadow: 0 0 0 2px var(--color-almond-silk) inset;
+}
+.tea-pick-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-tea-dark);
+}
+.tea-pick-card p {
+  font-size: 0.8rem;
+  color: rgb(74 63 53 / 0.6);
+  flex: 1;
+}
+
+/* Sticky-bar внизу шага 1 */
+.sticky-bar {
+  position: sticky;
+  bottom: 0;
+  margin-top: 2rem;
+  background: rgb(255 255 255 / 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--color-bone);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 30;
+}
+@media (min-width: 768px) {
+  .sticky-bar { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+.sticky-bar .summary { font-size: 0.85rem; color: var(--color-tea-dark); }
+.sticky-bar .summary strong { font-weight: 700; }
+.sticky-bar .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Чипсы категорий и масс-пресетов */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-bone);
+  background: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-tea-dark);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+.chip:hover { border-color: var(--color-almond-silk); }
+.chip.active {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+  border-color: var(--color-tea-dark);
+}
+
+/* Модалка низкой пригодности (и любая generic-модалка) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+.modal {
+  background: #fff;
+  max-width: 480px;
+  width: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--color-bone);
+}
+.modal h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-tea-dark);
+}
+.modal p {
+  font-size: 0.9rem;
+  color: rgb(74 63 53 / 0.7);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Toast-уведомление (правый нижний угол) */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+  padding: 0.85rem 1.25rem;
+  font-size: 0.85rem;
+  z-index: 200;
+  animation: toastIn 0.3s ease-out;
+}
+.toast--error { background: #c06b5b; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Скрытая секция шага */
+.step-section.hidden { display: none; }
+
+/* Конструктор — Шаг 2: ингредиенты и sticky-превью */
+
+/* Двухколоночный макет: левая 2/3 + правая 1/3 (sticky) */
+.step2-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  /* Нижний отступ чтобы bottom-sheet не перекрывал контент на мобильных */
+  padding-bottom: 5rem;
+}
+@media (min-width: 1024px) {
+  .step2-layout {
+    grid-template-columns: 2fr 1fr;
+    padding-bottom: 0;
+  }
+}
+
+/* Левая колонка */
+
+.step2-left { min-width: 0; }
+
+.step2-section {
+  margin-bottom: 1.5rem;
+}
+
+.step2-section-title {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.5);
+  margin-bottom: 0.75rem;
+}
+
+/* Ряд pill-ов (для топ-5 и групп) */
+.step2-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+/* На < 640px — принудительно 2 колонки */
+@media (max-width: 639px) {
+  .step2-pills-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Pill ингредиента */
+
+.ing-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-bone);
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-tea-dark);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  text-align: left;
+  position: relative;
+  margin-top: 0.85rem;
+}
+/* Маленькая плашка-метка жанра (одно слово). Используется на карточке чая
+   (step1) и на pill ингредиента (через .ing-pill-genre). */
+.genre-tag {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  background: var(--color-linen);
+  border: 1px solid var(--color-bone);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-tea-accent);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  vertical-align: middle;
+}
+/* На карточке чая (step1) — в углу карточки */
+.genre-tag-card {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  margin: 0;
+  font-size: 0.65rem;
+  background: var(--color-almond-cream);
+  z-index: 1;
+}
+/* карточка чая в шаге 1 — relative для абсолютного бейджа жанра */
+.tea-pick-card { position: relative; }
+/* Бейдж жанра на pill ингредиента (зеркало .ing-pill-rating, но справа) */
+.ing-pill-genre {
+  position: absolute;
+  top: -0.7rem;
+  right: 0.55rem;
+  padding: 0 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--color-almond-silk);
+  color: #fff;
+  border-radius: 999px;
+  pointer-events: none;
+  white-space: nowrap;
+  text-transform: lowercase;
+}
+.ing-pill.selected .ing-pill-genre {
+  background: var(--color-almond-cream);
+  color: var(--color-tea-dark);
+}
+
+/* Подсказка-уточнение в режиме редактирования (шаг 3) */
+.step3-edit-hint {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: var(--color-linen);
+  border: 1px solid var(--color-bone);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: var(--color-tea-dark);
+}
+
+/* Числовая оценка совместимости (★ X.X) над pill-ом */
+.ing-pill-rating {
+  position: absolute;
+  top: -0.7rem;
+  left: 0.55rem;
+  padding: 0 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--color-parchment);
+  border-radius: 999px;
+  color: var(--color-tea-dark);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.ing-pill.compat-emerald    .ing-pill-rating { color: #1e7a3b; }
+.ing-pill.compat-sage       .ing-pill-rating { color: #5b9b4a; }
+.ing-pill.compat-amber      .ing-pill-rating { color: #b07a1e; }
+.ing-pill.compat-terracotta .ing-pill-rating { color: #c66a32; }
+.ing-pill.compat-clay-red   .ing-pill-rating { color: #a93226; }
+.ing-pill.selected .ing-pill-rating {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+}
+.ing-pill:hover {
+  border-color: var(--color-almond-silk);
+  background: var(--color-linen);
+  transform: translateY(-1px);
+}
+/* Рекомендованные — лёгкий золотистый фон */
+.ing-pill.recommended {
+  border-color: var(--color-almond-silk);
+  background: var(--color-linen);
+}
+/* Цена за грамм мелкой подписью справа в pill */
+.ing-pill .ing-pill-price {
+  font-size: 0.62rem;
+  color: rgb(74 63 53 / 0.55);
+  font-weight: 600;
+  margin-left: 0.25rem;
+  white-space: nowrap;
+}
+.ing-pill.selected .ing-pill-price {
+  color: rgb(237 237 233 / 0.7);
+}
+/* Выбранные — тёмный фон */
+.ing-pill.selected {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+  border-color: var(--color-tea-dark);
+}
+.ing-pill.selected:hover {
+  background: #6b5c4e;
+  border-color: #6b5c4e;
+}
+/* Цветовая индикация совместимости (применяется через класс compat-*) */
+.ing-pill.compat-emerald    { border-color: #1e7a3b; }
+.ing-pill.compat-sage       { border-color: #5b9b4a; }
+.ing-pill.compat-amber      { /* нейтральная граница — не меняем */ }
+.ing-pill.compat-terracotta { border-color: #c66a32; }
+.ing-pill.compat-clay-red   { border-color: #a93226; }
+/* Выбранные — цвет совместимости не перебивает тёмный фон */
+.ing-pill.selected.compat-terracotta,
+.ing-pill.selected.compat-clay-red {
+  box-shadow: 0 0 0 2px #a93226 inset;
+}
+
+/* Аккордеон полного списка */
+
+.step2-accordion-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-bone);
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-tea-dark);
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.step2-accordion-btn:hover { background: var(--color-linen); }
+.step2-accordion-btn.open  { background: var(--color-linen); border-color: var(--color-almond-silk); }
+
+.step2-acc-chevron {
+  margin-left: auto;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.step2-accordion-btn.open .step2-acc-chevron { transform: rotate(180deg); }
+
+/* Панель раскрытого аккордеона */
+.step2-full-panel {
+  border: 1px solid var(--color-bone);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  padding: 0 1rem 1rem;
+  background: #fff;
+}
+
+/* Фильтры внутри полного списка */
+
+.step2-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.step2-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-tea-dark);
+  cursor: pointer;
+}
+.step2-sort-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.step2-sort-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.5);
+  white-space: nowrap;
+}
+.step2-sort-btn { font-size: 10px; padding: 0.3rem 0.7rem; }
+
+/* Группы ингредиентов в полном списке */
+
+.ing-group { margin-bottom: 1.25rem; }
+.ing-group-title {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.45);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-bone);
+}
+
+/* Блок «Памятка» */
+
+.step2-hints-block {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--color-bone);
+  background: var(--color-linen);
+  border-radius: 4px;
+  min-height: 64px;
+  font-size: 0.82rem;
+  color: var(--color-tea-dark);
+  line-height: 1.55;
+}
+.step2-hints-block h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+.step2-hints-block ul {
+  margin-top: 0.25rem;
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+}
+.step2-hints-block li { margin-bottom: 0.2rem; }
+
+/* Правая sticky-панель (превью) */
+
+.preview-panel {
+  /* На мобильных — скрыта (заменена bottom-sheet) */
+  display: none;
+}
+@media (min-width: 1024px) {
+  .preview-panel {
+    display: block;
+    position: sticky;
+    top: calc(64px + 1rem); /* под навигацией */
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid var(--color-bone);
+    border-radius: 4px;
+    padding: 1.25rem;
+  }
+}
+
+/* Внутренние элементы превью */
+.preview-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Чашка + бюджет */
+.preview-cup-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.preview-cup {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+}
+.preview-budget {
+  flex: 1;
+}
+.preview-budget-text {
+  font-size: 0.8rem;
+  color: var(--color-tea-dark);
+  margin-bottom: 0.4rem;
+}
+.preview-budget-bar {
+  height: 6px;
+  background: #e7e5e4;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.preview-budget-fill {
+  height: 100%;
+  background: var(--color-almond-silk);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* Секции в превью */
+.preview-section { margin-bottom: 0.5rem; }
+.preview-section-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.45);
+  margin-bottom: 0.4rem;
+}
+
+/* Строки основы */
+.preview-base-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--color-bone);
+  font-size: 0.82rem;
+}
+.preview-base-row:last-child { border-bottom: none; }
+
+/* Строки ингредиентов */
+.preview-ing-row {
+  display: grid;
+  grid-template-columns: 18px 1fr auto auto;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--color-bone);
+  font-size: 0.78rem;
+  transition: background 0.2s ease;
+}
+.preview-ing-row:last-child { border-bottom: none; }
+
+/* Красная рамка для ингредиентов с плохой совместимостью (score ≤ 1.4) */
+.preview-ing-row.preview-ing-low {
+  border-left: 3px solid #a93226;
+  padding-left: 0.5rem;
+  background: rgb(169 50 38 / 0.04);
+}
+
+.preview-ing-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-almond-silk);
+}
+
+.preview-component-name {
+  font-weight: 600;
+  color: var(--color-tea-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-grams {
+  font-size: 0.75rem;
+  color: rgb(74 63 53 / 0.6);
+  white-space: nowrap;
+}
+
+/* Кнопки +/- граммовки */
+.preview-ing-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.preview-grams-btn {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-bone);
+  background: #fff;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-tea-dark);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.preview-grams-btn:hover:not(:disabled) {
+  background: var(--color-almond-silk);
+  border-color: var(--color-almond-silk);
+  color: #fff;
+}
+.preview-grams-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Шкала совместимости в строке ингредиента */
+.preview-ing-scale {
+  /* Полоска шкалы поверх строки */
+  grid-column: 1 / -1;
+  margin-top: 0.1rem;
+}
+
+/* Пустое состояние ингредиентов */
+.preview-empty-ings {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: rgb(74 63 53 / 0.4);
+  padding: 0.75rem 0;
+  font-style: italic;
+}
+
+/* Кольца вкуса */
+
+.taste-rings {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.taste-ring-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.taste-ring-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.5);
+}
+
+/* Переключатель формата купаж/раздельный */
+
+.preview-format-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--color-bone);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.preview-format-btn {
+  padding: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  background: #fff;
+  color: rgb(74 63 53 / 0.55);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+.preview-format-btn:hover { background: var(--color-linen); }
+.preview-format-btn.active {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+}
+
+/* Цена в кнопке «К завершению» */
+.preview-price {
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+
+/* Кнопка «Назад» в превью */
+.preview-back-btn {
+  font-size: 11px;
+  padding: 0.5rem 1rem;
+}
+
+/* Bottom-sheet (мобильный, < 1024px) */
+
+.step2-bottom-sheet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: rgb(255 255 255 / 0.97);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--color-bone);
+  padding: 0.85rem 1.25rem;
+  /* На широких экранах скрыта — правая колонка заменяет её */
+}
+@media (min-width: 1024px) {
+  .step2-bottom-sheet { display: none; }
+}
+
+.step2-bottom-summary {
+  font-size: 0.82rem;
+  color: var(--color-tea-dark);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.step2-bottom-open-btn {
+  font-size: 0.78rem;
+  padding: 0.6rem 1.1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Модалка мобильного превью */
+
+.step2-preview-modal {
+  /* Переопределяем modal-backdrop: убираем стандартный max-width */
+  align-items: flex-end;
+}
+
+.step2-preview-modal-inner {
+  background: #fff;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-bone);
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.step2-preview-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-bone);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+}
+
+.step2-preview-modal-body {
+  padding: 1.25rem;
+  flex: 1;
+}
+
+/* Конструктор — Шаг 3: финал, имя, формат, в корзину */
+
+.step3-layout {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.step3-card {
+  background: #fff;
+  border: 1px solid var(--color-bone);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.step3-card-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--color-bone);
+  margin-bottom: 0.85rem;
+}
+
+.step3-card-cup {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+}
+
+.step3-card-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.step3-card-total {
+  font-size: 0.78rem;
+  color: rgb(74 63 53 / 0.55);
+  letter-spacing: 0.04em;
+}
+
+.step3-card-price {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-tea-dark);
+  line-height: 1.1;
+}
+
+.step3-card-section {
+  margin-top: 0.6rem;
+}
+
+.step3-card-section-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.45);
+  margin-bottom: 0.3rem;
+}
+
+.step3-comp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step3-comp-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed var(--color-bone);
+  font-size: 0.85rem;
+}
+.step3-comp-row:last-child {
+  border-bottom: none;
+}
+
+.step3-comp-name {
+  color: var(--color-tea-dark);
+  font-weight: 500;
+  min-width: 0;
+}
+
+.step3-comp-grams {
+  color: rgb(74 63 53 / 0.6);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.step3-comp-price {
+  color: var(--color-tea-dark);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  min-width: 56px;
+  text-align: right;
+}
+
+.step3-name-block,
+.step3-format-block {
+  margin-bottom: 1.5rem;
+}
+
+.step3-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgb(74 63 53 / 0.55);
+  margin-bottom: 0.5rem;
+}
+
+.step3-name-hint {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: rgb(74 63 53 / 0.45);
+}
+
+.step3-format-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-bone);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.step3-format-btn {
+  padding: 0.7rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #fff;
+  color: rgb(74 63 53 / 0.6);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.step3-format-btn:hover {
+  background: var(--color-linen);
+}
+.step3-format-btn.active {
+  background: var(--color-tea-dark);
+  color: var(--color-parchment);
+}
+
+.step3-format-hint {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: rgb(74 63 53 / 0.55);
+  line-height: 1.4;
+}
+
+.step3-error {
+  background: rgb(169 50 38 / 0.08);
+  border: 1px solid rgb(169 50 38 / 0.4);
+  color: #a93226;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.step3-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.step3-actions .btn-primary {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 480px) {
+  .step3-actions {
+    flex-direction: column-reverse;
+  }
+  .step3-actions .btn-primary,
+  .step3-actions .btn-ghost {
+    width: 100%;
+  }
+}

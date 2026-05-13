@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оформление заказа — Альтана</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="bg-parchment text-tea-dark font-sans selection:bg-almond-silk selection:text-white min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav id="main-nav" class="sticky top-0 w-full z-50 bg-parchment/90 backdrop-blur-xl py-3 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="../../" class="flex items-center gap-4 group">
+          <div class="w-12 h-12 bg-almond-silk rounded-full flex items-center justify-center text-white">
+            <i data-lucide="leaf" size="24"></i>
+          </div>
+          <span class="text-3xl font-serif font-bold tracking-tight text-tea-dark">Альтана</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-12">
+          <a href="../../" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Главная</a>
+          <a href="catalog.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Каталог</a>
+          <a href="constructor.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Конструктор</a>
+          <a href="about.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">О нас</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <a href="cart.html" class="p-2.5 hover:bg-bone rounded-full transition-colors relative" aria-label="Корзина">
+            <i data-lucide="shopping-bag" size="24"></i>
+            <span data-cart-count class="absolute top-0 right-0 w-5 h-5 bg-almond-silk text-white text-[10px] flex items-center justify-center rounded-full">0</span>
+          </a>
+          <div id="auth-buttons"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-1 py-12 md:py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <nav class="crumbs mb-10">
+          <a href="../../">Главная</a>
+          <span class="sep">/</span>
+          <a href="cart.html">Корзина</a>
+          <span class="sep">/</span>
+          <span class="text-tea-dark/70">Оформление</span>
+        </nav>
+
+        <header class="mb-10">
+          <span class="text-almond-silk uppercase tracking-widest text-[10px] font-bold mb-3 block">Финальный шаг</span>
+          <h1 class="text-4xl md:text-5xl font-serif text-tea-dark">Оформление <span class="italic">заказа</span></h1>
+        </header>
+
+        <!-- Loading -->
+        <div id="checkout-loading" class="py-20 text-center">
+          <div class="inline-block w-8 h-8 border-2 border-almond-silk border-t-transparent rounded-full animate-spin"></div>
+          <p class="mt-4 text-xs uppercase tracking-widest text-tea-dark/40">Загрузка...</p>
+        </div>
+
+        <!-- Пустая корзина -->
+        <div id="checkout-empty" class="hidden bg-white border border-dashed border-bone py-24 px-6 text-center">
+          <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center text-almond-silk breathe">
+            <i data-lucide="leaf" class="w-16 h-16"></i>
+          </div>
+          <h2 class="text-3xl font-serif text-tea-dark mb-3">Корзина <span class="italic">пуста</span></h2>
+          <p class="text-tea-dark/50 mb-8 max-w-md mx-auto leading-relaxed">
+            Сначала добавьте товары в корзину.
+          </p>
+          <a href="catalog.html" class="btn-primary inline-flex items-center gap-3">
+            <span>В каталог</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- Основной контент: форма + сводка -->
+        <div id="checkout-content" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <!-- Форма оформления -->
+          <form id="checkout-form" class="lg:col-span-2 space-y-8">
+            <section class="bg-white border border-bone p-8 space-y-4">
+              <h2 class="text-2xl font-serif text-tea-dark">Получение заказа</h2>
+              <div class="flex items-start gap-4 p-4 bg-linen border border-bone">
+                <i data-lucide="store" class="w-6 h-6 text-almond-silk shrink-0 mt-1"></i>
+                <div class="space-y-1">
+                  <p class="text-[10px] uppercase tracking-widest font-bold text-almond-silk">Способ получения</p>
+                  <p class="text-sm font-medium text-tea-dark">Самовывоз из магазина</p>
+                  <p class="text-xs text-tea-dark/50 leading-relaxed">
+                    Когда заказ будет готов, мы свяжемся с вами для уточнения времени.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section class="bg-white border border-bone p-8 space-y-6">
+              <h2 class="text-2xl font-serif text-tea-dark">Оплата</h2>
+              <div class="space-y-3">
+                <label class="flex items-center gap-4 p-4 border border-bone cursor-pointer hover:border-almond-silk transition-all">
+                  <input type="radio" name="payment" value="Карта онлайн" class="custom-checkbox" checked>
+                  <span class="text-sm font-medium">Картой онлайн</span>
+                </label>
+                <label class="flex items-center gap-4 p-4 border border-bone cursor-pointer hover:border-almond-silk transition-all">
+                  <input type="radio" name="payment" value="Оплата при получении" class="custom-checkbox">
+                  <span class="text-sm font-medium">Оплата при получении</span>
+                </label>
+                <label class="flex items-center gap-4 p-4 border border-bone cursor-pointer hover:border-almond-silk transition-all">
+                  <input type="radio" name="payment" value="СБП" class="custom-checkbox">
+                  <span class="text-sm font-medium">Система быстрых платежей (СБП)</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="bg-white border border-bone p-8 space-y-6">
+              <h2 class="text-2xl font-serif text-tea-dark">Комментарий</h2>
+              <div class="space-y-2">
+                <label for="note" class="text-[10px] uppercase tracking-widest font-bold text-almond-silk">К заказу (необязательно)</label>
+                <textarea id="note" name="note" rows="2" class="input-field w-full" placeholder="Например: позвонить за час до доставки"></textarea>
+              </div>
+            </section>
+
+            <p id="checkout-error" class="hidden text-red-400 text-sm"></p>
+          </form>
+
+          <!-- Сводка справа -->
+          <aside class="lg:sticky lg:top-28 self-start">
+            <div class="bg-white border border-bone p-8 space-y-6">
+              <h2 class="text-xl font-serif text-tea-dark border-b border-bone pb-4">Ваш заказ</h2>
+
+              <div id="checkout-items" class="space-y-4 max-h-80 overflow-y-auto pr-2"></div>
+
+              <div class="space-y-3 text-sm border-t border-bone pt-4">
+                <div class="flex justify-between">
+                  <span class="text-tea-dark/60">Подытог</span>
+                  <span id="checkout-subtotal" class="font-medium tabular-nums">0 ₽</span>
+                </div>
+              </div>
+
+              <div class="border-t border-bone pt-4 flex justify-between items-baseline">
+                <span class="text-[10px] uppercase tracking-widest font-bold text-tea-dark/60">Итого</span>
+                <span id="checkout-total" class="text-2xl font-serif text-tea-dark tabular-nums">0 ₽</span>
+              </div>
+
+              <button type="submit" form="checkout-form" id="checkout-submit" class="btn-primary w-full inline-flex items-center justify-center gap-3">
+                <span>Подтвердить заказ</span>
+                <i data-lucide="check" class="w-4 h-4"></i>
+              </button>
+
+              <p class="text-[10px] text-tea-dark/40 text-center leading-relaxed">
+                Нажимая «Подтвердить заказ», вы соглашаетесь с условиями обработки данных.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/cart/checkout.js"></script>
+  </body>
+</html>

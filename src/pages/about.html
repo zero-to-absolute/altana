@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>О нас — Альтана</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="bg-parchment text-tea-dark font-sans selection:bg-almond-silk selection:text-white">
+    <!-- Navigation -->
+    <nav id="main-nav" class="sticky top-0 w-full z-50 transition-all duration-500 bg-parchment/90 backdrop-blur-xl py-3 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="../../" class="flex items-center gap-4 group">
+          <div class="w-12 h-12 bg-almond-silk rounded-full flex items-center justify-center text-white">
+            <i data-lucide="leaf" size="24"></i>
+          </div>
+          <span class="text-3xl font-serif font-bold tracking-tight text-tea-dark">Альтана</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-12">
+          <a href="../../" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Главная</a>
+          <a href="catalog.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Каталог</a>
+          <a href="constructor.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Конструктор</a>
+          <a href="about.html" class="text-sm uppercase tracking-widest font-bold text-almond-silk">О нас</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <a href="cart.html" class="p-2.5 hover:bg-bone rounded-full transition-colors relative" aria-label="Корзина">
+            <i data-lucide="shopping-bag" size="24"></i>
+            <span data-cart-count class="absolute top-0 right-0 w-5 h-5 bg-almond-silk text-white text-[10px] flex items-center justify-center rounded-full">0</span>
+          </a>
+          <div id="auth-buttons">
+            <!-- Будет заполнено через JS -->
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Hero -->
+      <section class="relative h-[70vh] min-h-[520px] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+          <img src="https://images.unsplash.com/photo-1523920290228-4f321a939b4c?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-50" alt="Чайная плантация">
+          <div class="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/60 to-transparent"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <nav class="crumbs mb-10">
+            <a href="../../">Главная</a>
+            <span class="sep">/</span>
+            <span class="text-tea-dark/70">О нас</span>
+          </nav>
+          <h1 class="text-6xl md:text-8xl font-serif text-tea-dark leading-[1.05] max-w-3xl">
+            О нас
+          </h1>
+        </div>
+      </section>
+
+      <!-- Наш взгляд -->
+      <section class="py-32">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div>
+            <span class="text-almond-silk uppercase tracking-widest text-[10px] font-bold mb-6 block">Наш взгляд</span>
+            <h2 class="text-5xl md:text-6xl font-serif text-tea-dark leading-tight mb-8">Чай как <span class="italic">ритуал</span></h2>
+            <p class="text-tea-dark/70 leading-relaxed mb-6">
+              Мы верим: чашка чая — это пауза, момент для себя.
+            </p>
+            <p class="text-tea-dark/70 leading-relaxed">
+              Каждый чай в нашем каталоге подобран вручную — с вниманием к вкусу, происхождению и тому, как он ощущается в конкретный момент дня.
+            </p>
+          </div>
+
+          <div class="relative">
+            <div class="aspect-[4/5] bg-linen flex flex-col justify-end p-10 md:p-14">
+              <div class="w-12 h-px bg-almond-silk mb-8"></div>
+              <blockquote class="font-serif text-3xl md:text-4xl text-tea-dark leading-snug mb-8">
+                «Правильный чай не требует ничего, кроме тишины и&nbsp;воды нужной температуры.»
+              </blockquote>
+              <p class="text-[10px] uppercase tracking-[0.25em] font-bold text-tea-dark/40">Чайный мастер «Альтаны»</p>
+            </div>
+            <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-almond-silk/10 -z-10"></div>
+            <div class="absolute -top-8 -right-8 w-36 h-36 border border-bone -z-10"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Принципы -->
+      <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="max-w-2xl mb-16">
+            <span class="text-almond-silk uppercase tracking-widest text-[10px] font-bold mb-6 block">Что для нас важно</span>
+            <h2 class="text-5xl md:text-6xl font-serif text-tea-dark leading-tight">Три простых <span class="italic">принципа</span></h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div class="space-y-4">
+              <div class="w-12 h-[1px] bg-almond-silk mb-6"></div>
+              <h3 class="text-2xl font-serif text-tea-dark">Прямые поставки</h3>
+              <p class="text-tea-dark/50 text-sm leading-relaxed">Работаем напрямую с плантациями Китая, Индии, Японии и Шри-Ланки. Каждая партия проходит дегустацию.</p>
+            </div>
+            <div class="space-y-4">
+              <div class="w-12 h-[1px] bg-almond-silk mb-6"></div>
+              <h3 class="text-2xl font-serif text-tea-dark">Без компромиссов</h3>
+              <p class="text-tea-dark/50 text-sm leading-relaxed">Только цельный лист, без ароматизаторов и красителей. Если состав не нравится нам — он не попадает в каталог.</p>
+            </div>
+            <div class="space-y-4">
+              <div class="w-12 h-[1px] bg-almond-silk mb-6"></div>
+              <h3 class="text-2xl font-serif text-tea-dark">Конструктор смесей</h3>
+              <p class="text-tea-dark/50 text-sm leading-relaxed">Соберите авторский купаж из проверенных компонентов — система подскажет идеальные сочетания.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-32 bg-tea-dark text-parchment text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-almond-silk rounded-full blur-[120px]"></div>
+          <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-almond-silk rounded-full blur-[120px]"></div>
+        </div>
+        <div class="max-w-2xl mx-auto px-6 relative z-10">
+          <span class="text-almond-silk uppercase tracking-[0.4em] text-[10px] font-black mb-8 block">Поговорим</span>
+          <h2 class="text-5xl md:text-6xl font-serif mb-8">Хотите узнать <span class="italic">больше?</span></h2>
+          <p class="text-parchment/60 mb-12 leading-relaxed">
+            Ищете редкий сорт, хотите заказать для офиса, устроить дегустацию? Напишите нам — ответим в течение рабочего дня.
+          </p>
+          <a href="catalog.html" class="btn-primary inline-flex items-center gap-3">
+            <span>В каталог</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-tea-dark text-parchment py-24">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-16">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-almond-silk rounded-full flex items-center justify-center text-white">
+              <i data-lucide="leaf" size="20"></i>
+            </div>
+            <span class="text-2xl font-serif font-bold tracking-tight">Альтана</span>
+          </div>
+          <p class="text-parchment/40 max-w-sm mb-10 leading-relaxed">
+            Создаем культуру правильного чаепития. Каждая чашка — это путешествие в мир гармонии и вкуса.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-serif text-xl mb-8">Разделы</h4>
+          <ul class="space-y-4 text-sm text-parchment/50">
+            <li><a href="catalog.html" class="hover:text-almond-silk transition-colors">Каталог</a></li>
+            <li><a href="constructor.html" class="hover:text-almond-silk transition-colors">Конструктор</a></li>
+            <li><a href="about.html" class="hover:text-almond-silk transition-colors">О нас</a></li>
+            <li><a href="saved-recipes.html" class="hover:text-almond-silk transition-colors">Рецепты</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-serif text-xl mb-8">Помощь</h4>
+          <ul class="space-y-4 text-sm text-parchment/50">
+            <li><a href="#" class="hover:text-almond-silk transition-colors">FAQ</a></li>
+            <li><a href="#" class="hover:text-almond-silk transition-colors">Контакты</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-parchment/20">
+        <span>&copy; 2026 Альтана. Все права защищены.</span>
+        <span>С любовью к чаю.</span>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

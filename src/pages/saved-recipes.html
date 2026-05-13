@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сохранённые рецепты — Альтана</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="bg-parchment text-tea-dark font-sans selection:bg-almond-silk selection:text-white min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav id="main-nav" class="sticky top-0 w-full z-50 bg-parchment/90 backdrop-blur-xl py-3 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="../../" class="flex items-center gap-4 group">
+          <div class="w-12 h-12 bg-almond-silk rounded-full flex items-center justify-center text-white">
+            <i data-lucide="leaf" size="24"></i>
+          </div>
+          <span class="text-3xl font-serif font-bold tracking-tight text-tea-dark">Альтана</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-12">
+          <a href="../../" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Главная</a>
+          <a href="catalog.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Каталог</a>
+          <a href="constructor.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Конструктор</a>
+          <a href="about.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">О нас</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <a href="cart.html" class="p-2.5 hover:bg-bone rounded-full transition-colors relative" aria-label="Корзина">
+            <i data-lucide="shopping-bag" size="24"></i>
+            <span data-cart-count class="absolute top-0 right-0 w-5 h-5 bg-almond-silk text-white text-[10px] flex items-center justify-center rounded-full">0</span>
+          </a>
+          <div id="auth-buttons"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-1 py-12 md:py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <nav class="crumbs mb-10">
+          <a href="../../">Главная</a>
+          <span class="sep">/</span>
+          <a href="profile.html">Профиль</a>
+          <span class="sep">/</span>
+          <span class="text-tea-dark/70">Сохранённые рецепты</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <div id="sidebar-mount"></div>
+
+          <div class="lg:col-span-3 space-y-10">
+            <header class="flex items-end justify-between gap-6 flex-wrap">
+              <div>
+                <span class="text-almond-silk uppercase tracking-widest text-[10px] font-bold mb-3 block">Личный кабинет</span>
+                <h1 class="text-4xl md:text-5xl font-serif text-tea-dark">Мои <span class="italic">рецепты</span></h1>
+                <p id="recipes-counter" class="text-tea-dark/50 mt-3 text-sm uppercase tracking-widest font-medium">Загрузка...</p>
+              </div>
+            </header>
+
+            <!-- Loading -->
+            <div id="recipes-loading" class="py-20 text-center">
+              <div class="inline-block w-8 h-8 border-2 border-almond-silk border-t-transparent rounded-full animate-spin"></div>
+              <p class="mt-4 text-xs uppercase tracking-widest text-tea-dark/40">Загрузка рецептов...</p>
+            </div>
+
+            <!-- Grid -->
+            <div id="recipes-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+
+            <!-- Error -->
+            <div id="recipes-error" class="hidden text-red-400 text-sm"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/recipes/saved-recipes.js"></script>
+  </body>
+</html>

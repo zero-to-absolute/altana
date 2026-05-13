@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Конструктор смеси — Альтана</title>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/src/index.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-parchment text-tea-dark font-sans min-h-screen flex flex-col selection:bg-almond-silk selection:text-white">
+
+  <!-- Шапка -->
+  <nav id="main-nav" class="sticky top-0 w-full z-50 transition-all duration-500 bg-parchment/90 backdrop-blur-xl py-3 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <a href="../../" class="flex items-center gap-4 group">
+        <div class="w-12 h-12 bg-almond-silk rounded-full flex items-center justify-center text-white">
+          <i data-lucide="leaf" size="24"></i>
+        </div>
+        <span class="text-3xl font-serif font-bold tracking-tight text-tea-dark">Альтана</span>
+      </a>
+      <div class="hidden md:flex items-center gap-12">
+        <a href="../../" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Главная</a>
+        <a href="catalog.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">Каталог</a>
+        <a href="constructor.html" class="text-sm uppercase tracking-widest font-bold text-almond-silk">Конструктор</a>
+        <a href="about.html" class="text-sm uppercase tracking-widest font-bold text-tea-dark/60 hover:text-almond-silk transition-colors">О нас</a>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="cart.html" class="p-2.5 hover:bg-bone rounded-full transition-colors relative" aria-label="Корзина">
+          <i data-lucide="shopping-bag" size="24"></i>
+          <span data-cart-count class="absolute top-0 right-0 w-5 h-5 bg-almond-silk text-white text-[10px] flex items-center justify-center rounded-full">0</span>
+        </a>
+        <div id="auth-buttons"><!-- JS заполнит --></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl w-full mx-auto px-6 py-12 flex-1">
+
+    <nav id="breadcrumbs" class="crumbs mb-6">
+      <a href="../../">Главная</a> <span class="sep">/</span> <span>Конструктор</span>
+    </nav>
+
+    <ol id="stepper" class="flex items-center gap-2 mb-10 flex-wrap" aria-label="Шаги конструктора">
+      <li data-step="0" class="step-active">Жанр</li>
+      <li data-step="1">Основа</li>
+      <li data-step="2">Ингредиенты</li>
+      <li data-step="3">Готово</li>
+    </ol>
+
+    <section id="step-0" class="step-section"></section>
+    <section id="step-1" class="step-section hidden"></section>
+    <section id="step-2" class="step-section hidden"></section>
+    <section id="step-3" class="step-section hidden"></section>
+
+  </main>
+
+  <footer class="bg-tea-dark text-parchment py-12 mt-16">
+    <div class="max-w-7xl mx-auto px-6 text-center text-[10px] uppercase tracking-widest text-parchment/40">
+      &copy; 2026 Альтана. Все права защищены.
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script type="module" src="/src/js/main.js"></script>
+  <script type="module" src="/src/js/constructor/constructor.js"></script>
+</body>
+</html>
