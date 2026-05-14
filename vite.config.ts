@@ -2,9 +2,11 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig({
   base: '/',
-  plugins: [tailwindcss()],
+  plugins: [tailwindcss(), cloudflare()],
   server: {
     port: 3000,
     host: '0.0.0.0',

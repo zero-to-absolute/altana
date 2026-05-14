@@ -16,3 +16,9 @@ Thumbs.db
 .vscode/settings.json
 *.suo
 *.user
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
