@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: '/altana/',
+  base: '/',
   plugins: [tailwindcss()],
   server: {
     port: 3000,
