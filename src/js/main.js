@@ -1,6 +1,7 @@
 // Навигация в шапке: кнопки входа/выхода по состоянию авторизации, счётчик корзины,
 // подборка чаёв на главной. Подключается на страницах с полной навигацией.
 
+import './shared/icons.js';
 import { getCurrentUser, onAuthChange, logout } from './auth/auth-state.js';
 import { initCartCounter } from './shared/cart-counter.js';
 import { supabase } from './shared/supabase.js';

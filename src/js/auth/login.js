@@ -1,5 +1,6 @@
 // Страница входа: валидация формы, вызов Supabase Auth, редирект.
 
+import '../shared/icons.js';
 import { supabase } from '../shared/supabase.js';
 import { getCurrentUser, postAuthRedirectUrl } from './auth-state.js';
 

@@ -1,12 +1,12 @@
-// Единственный экземпляр Supabase-клиента, SDK подключается тегом <script> в HTML.
-// Если SDK не загрузился — подставляем заглушку, которая на любой запрос отдаёт ошибку и пишет в консоль.
+// Единственный экземпляр Supabase-клиента. SDK импортируется из npm (бандлится Vite),
+// поэтому CDN-блокировки jsdelivr/unpkg больше не валят сайт.
+// Заглушка остаётся на случай, если недоступен сам домен Supabase (это уже бэкенд, не SDK).
 
+import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
-function createUnavailableClient() {
-  const error = {
-    message: 'Supabase SDK не загрузился. Проверьте подключение к интернету и тег <script> с supabase-js.',
-  };
+function createUnavailableClient(reason) {
+  const error = { message: reason };
   let warned = false;
   function warnOnce() {
     if (warned) return;
@@ -14,13 +14,10 @@ function createUnavailableClient() {
     console.error('[supabase]', error.message);
   }
 
-  // прокси, который умеет всё: любой метод возвращает такой же прокси (для цепочек .from().select()...),
-  // а await на нём даёт { data: null, error }
   const handler = {
     get(target, prop) {
       if (prop === 'then') {
         warnOnce();
-        // data: [] — чтобы код, делающий data.map(...) без проверки error, не падал
         return (resolve) => resolve({ data: [], error });
       }
       return new Proxy(target, handler);
@@ -33,6 +30,12 @@ function createUnavailableClient() {
   return new Proxy(noop, handler);
 }
 
-export const supabase = window.supabase
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-  : createUnavailableClient();
+let client;
+try {
+  client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} catch (err) {
+  console.error('[supabase] не удалось создать клиента', err);
+  client = createUnavailableClient('Supabase-клиент не инициализирован: ' + (err?.message || 'unknown error'));
+}
+
+export const supabase = client;
